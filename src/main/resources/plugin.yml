@@ -1,5 +1,5 @@
 name: StructureFinder
-version: 1.0.0
+version: 1.0.1
 main: de.unlimited8.structurefinder.StructureFinder
 api-version: '26.3'
 author: unlimited8
@@ -7,8 +7,8 @@ description: Struktur-Suche um Online-Spieler mit GUI und RCON
 commands:
   structures:
     description: Suche Strukturen um einen Spieler
-    usage: /structures [players|types|find|results|tp|cancel]
-    aliases: [structfind]
+    usage: /structures [help|players|types|find|results|tp|cancel]
+    aliases: [structure, structfind]
 permissions:
   structurefinder.use:
     description: Darf die Struktur-Menues verwenden

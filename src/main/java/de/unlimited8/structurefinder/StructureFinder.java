@@ -79,7 +79,11 @@ public final class StructureFinder extends JavaPlugin implements Listener, Comma
         NamespacedKey key = NamespacedKey.fromString(norm(id));
         return key == null ? null : Registry.STRUCTURE.get(key);
     }
-    private void reply(CommandSender sender, String message) { sender.sendMessage(ChatColor.AQUA + "[Structures] " + ChatColor.RESET + message); }
+    private void reply(CommandSender sender, String message) {
+        sender.sendMessage(sender instanceof Player
+            ? ChatColor.AQUA + "[Structures] " + ChatColor.RESET + message
+            : "[Structures] " + message);
+    }
     private boolean permitted(CommandSender sender) { return !(sender instanceof Player) || sender.hasPermission("structurefinder.use"); }
 
     @Override public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -152,11 +156,29 @@ public final class StructureFinder extends JavaPlugin implements Listener, Comma
         return true;
     }
     private void help(CommandSender sender) {
-        reply(sender, "structures | players | types");
-        reply(sender, "structures find <spieler> <struktur> [1-10]");
-        reply(sender, "structures results <spieler> <struktur>");
-        reply(sender, "structures tp <spieler> <struktur> <index> [self|target]");
-        reply(sender, "structures cancel <spieler> <struktur>");
+        boolean ingame = sender instanceof Player;
+        String command = ingame ? "/structure" : "structure";
+        reply(sender, "Hilfe (" + (ingame ? "Ingame" : "RCON / Konsole") + ") — <...> Pflicht, [...] optional");
+        reply(sender, command + " help — Zeigt diese Befehlsübersicht.");
+        reply(sender, command + (ingame
+            ? " — Öffnet das Menü: Spieler wählen, Struktur wählen, Suche starten."
+            : " — Zeigt diese Hilfe; RCON-Befehle ohne / eingeben."));
+        reply(sender, command + " players — Listet Online-Spieler auf diesem Paper-Backend.");
+        reply(sender, command + " types — Zeigt verfügbare Struktur-IDs, z.B. mansion.");
+        reply(sender, command + " find <spieler> <struktur> [anzahl] — Startet die Suche um den Spieler.");
+        reply(sender, command + " results <spieler> <struktur> — Zeigt den Suchfortschritt oder nummerierte Fundorte.");
+        reply(sender, command + " tp <spieler> <struktur> <index> " + (ingame ? "[self|target]" : "[target]")
+            + " — Teleportiert zum Fundort; ohne Zusatz wird der Zielspieler teleportiert.");
+        reply(sender, command + " cancel <spieler> <struktur> — Bricht die laufende Suche ab.");
+        if (ingame) {
+            reply(sender, "Teleport: self = du selbst, target = angegebener Spieler. Im Ergebnismenü: links = du, rechts = Zielspieler.");
+            reply(sender, "Rechte: structurefinder.use; für andere Spieler zusätzlich structurefinder.admin.");
+        } else {
+            reply(sender, "RCON kann nur den Zielspieler teleportieren; self ist nicht verfügbar.");
+        }
+        reply(sender, "Die Suche dauert mehrere Ticks: erst find, dann results erneut abfragen, bis sie fertig ist.");
+        reply(sender, "Beispiel: " + command + " find " + (ingame ? sender.getName() : "<spieler>") + " mansion 10");
+        reply(sender, "Aliase: structure, structures, structfind. Zielspieler müssen auf diesem Backend online sein.");
     }
 
     private void startSearch(CommandSender sender, Player target, String id, Structure structure, int requested) {

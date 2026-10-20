@@ -1,25 +1,29 @@
-# StructureFinder 1.0.0 (Paper 26.3)
+# StructureFinder 1.0.1 (Paper 26.3)
 
 Paper-Plugin zur Struktursuche um einen *online befindlichen Spieler auf demselben Paper-Backend* mit Inventarmenü und über RCON ausführbaren Textbefehlen.
 
 ## Installation
 
 1. Java 25 und Paper 26.3 verwenden.
-2. `./gradlew build` (Linux/macOS) bzw. `.\gradlew.bat build` (Windows) ausführen. Der enthaltene Wrapper lädt Gradle 9.2.1 automatisch. Ergebnis: `build/libs/StructureFinder-1.0.0.jar`.
+2. `./gradlew build` (Linux/macOS) bzw. `.\gradlew.bat build` (Windows) ausführen. Der enthaltene Wrapper lädt Gradle 9.2.1 automatisch. Ergebnis: `build/libs/StructureFinder-1.0.1.jar`.
 3. JAR in `plugins/` des betreffenden Paper-Backends kopieren, Server neu starten.
 4. `plugins/StructureFinder/config.yml` nach Bedarf ändern.
 5. OP bzw. Rechte `structurefinder.use`, `structurefinder.admin` vergeben.
 
 ## Ingame
 
+- `/structure help` -> Alle Befehle mit kurzer Erklärung, Menübedienung und benötigten Rechten.
 - `/structures` -> Online-Spieler auswählen -> Strukturtyp -> startet Suche -> Ergebnismenü.
 - Linksklick auf Ergebnis: sich selbst teleportieren; Rechtsklick: Zielspieler teleportieren.
+
+`structure`, `structures` und `structfind` sind gleichwertige Befehlsnamen.
 
 ## RCON / Konsole
 
 Befehle ohne vorangestellten `/`:
 
 ```
+structure help
 structures players
 structures types
 structures find JobbeDeluxe mansion 10
@@ -28,6 +32,8 @@ structures tp JobbeDeluxe mansion 1
 structures tp JobbeDeluxe mansion 1 target
 structures cancel JobbeDeluxe mansion
 ```
+
+`structure help` zeigt alle Befehle mit kurzen Erklärungen für RCON/Konsole. Die Textausgabe enthält dort keine Minecraft-Farbcodes.
 
 Die Suche läuft über mehrere Ticks; RCON-Aufrufe geben **zunächst nur den Startstatus** aus. `results` erneut aufrufen, bis die Suche abgeschlossen ist. RCON kann nur einen **Zielspieler** teleportieren (kein `self`).
 
