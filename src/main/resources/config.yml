@@ -1,0 +1,14 @@
+# Eine Vanilla-Struktursuche kann Chunks laden und kurz den Hauptthread blockieren.
+# Dieses Plugin startet daher nur jeweils eine Suche alle N Ticks.
+search:
+  radius-chunks: 96
+  max-probes: 36
+  ticks-between-probes: 10
+  default-results: 10
+  max-results: 10
+  # Suchpunkte liegen auf einer Spirale um den Referenz-Spieler.
+  probe-spacing-blocks: 1200
+  # Ergebnisse werden pro Spieler+Struktur gespeichert; /structures tp verwendet den letzten fertigen Cache.
+teleport:
+  # Ziel wird an der Oberflaeche gesetzt. Unterirdische Strukturen werden NICHT direkt betreten.
+  safe-surface: true
